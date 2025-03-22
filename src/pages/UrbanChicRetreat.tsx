@@ -9,11 +9,13 @@ import RsvpForm from '../components/RsvpForm';
 import AnimatedBackground from '../components/AnimatedBackground';
 import AvenueMap from '../components/AvenueMap';
 import BlessingAnimation from '../components/BlessingAnimation';
+import LoadingScreen from '../components/LoadingScreen';
 import { Video, Clock, Calendar } from 'lucide-react';
 
 // Define customizable props - these would be set by the user
 const defaultProps = {
   hostName: "Alex & Jordan",
+  title: "Housewarming Party",
   date: "Friday, October 20, 2023",
   time: "8:00 PM - Late",
   address: "1200 Metropolitan Lofts, New York, NY 10001",
@@ -29,7 +31,17 @@ const UrbanChicRetreat = () => {
   const [countdownDays, setCountdownDays] = useState(0);
   const [countdownHours, setCountdownHours] = useState(0);
   const [countdownMinutes, setCountdownMinutes] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
   const footerRef = useRef<HTMLDivElement>(null);
+  
+  // Simulate loading time
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+    
+    return () => clearTimeout(timer);
+  }, []);
   
   // Calculate countdown timer (sample implementation)
   useEffect(() => {
@@ -77,11 +89,27 @@ const UrbanChicRetreat = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+  
+  const handleBlessingComplete = () => {
+    // Open video message when blessing animation completes
+    setIsVideoModalOpen(true);
+  };
+
+  const eventDetails = {
+    title: defaultProps.title,
+    date: defaultProps.date,
+    time: defaultProps.time,
+    address: defaultProps.address
+  };
+
+  if (isLoading) {
+    return <LoadingScreen theme="urban" onComplete={() => setIsLoading(false)} />;
+  }
 
   return (
     <div className="urban-container invitation-container">
       <AnimatedBackground theme="urban" />
-      <Header theme="urban" />
+      <Header theme="urban" eventDetails={eventDetails} />
       
       <main className="flex-1 w-full max-w-7xl mx-auto px-4 pt-32 pb-16">
         {/* Countdown Timer */}
@@ -126,21 +154,11 @@ const UrbanChicRetreat = () => {
         
         {/* Blessing Animation */}
         <div className="w-full max-w-3xl mx-auto mb-12">
-          <BlessingAnimation theme="urban" />
+          <BlessingAnimation theme="urban" onBlessingComplete={handleBlessingComplete} />
         </div>
         
         {/* RSVP Form */}
         <RsvpForm theme="urban" />
-        
-        {/* Add to Calendar */}
-        <div className="mt-6 text-center">
-          <button 
-            className="button-secondary border border-urban-gold/50 text-urban-gold flex items-center mx-auto"
-          >
-            <Calendar size={20} className="mr-2" />
-            Add to Calendar
-          </button>
-        </div>
         
         {/* Video button that appears when scrolled to bottom */}
         {showVideoButton && (

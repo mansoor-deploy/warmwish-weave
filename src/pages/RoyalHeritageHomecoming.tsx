@@ -9,11 +9,13 @@ import RsvpForm from '../components/RsvpForm';
 import AnimatedBackground from '../components/AnimatedBackground';
 import AvenueMap from '../components/AvenueMap';
 import BlessingAnimation from '../components/BlessingAnimation';
+import LoadingScreen from '../components/LoadingScreen';
 import { Video, Crown } from 'lucide-react';
 
 // Define customizable props - these would be set by the user
 const defaultProps = {
   hostName: "Raj & Priya",
+  title: "Housewarming Party",
   date: "Saturday, December 30, 2023",
   time: "7:00 PM - 11:00 PM",
   address: "600 Royal Gardens, Boston, MA 02108",
@@ -27,7 +29,17 @@ const RoyalHeritageHomecoming = () => {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [showVideoButton, setShowVideoButton] = useState(false);
   const [isCurtainOpen, setIsCurtainOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const footerRef = useRef<HTMLDivElement>(null);
+  
+  // Simulate loading time
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+    
+    return () => clearTimeout(timer);
+  }, []);
   
   // Open curtain animation after a short delay
   useEffect(() => {
@@ -57,11 +69,27 @@ const RoyalHeritageHomecoming = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+  
+  const handleBlessingComplete = () => {
+    // Open video message when blessing animation completes
+    setIsVideoModalOpen(true);
+  };
+
+  const eventDetails = {
+    title: defaultProps.title,
+    date: defaultProps.date,
+    time: defaultProps.time,
+    address: defaultProps.address
+  };
+
+  if (isLoading) {
+    return <LoadingScreen theme="royal" onComplete={() => setIsLoading(false)} />;
+  }
 
   return (
     <div className="royal-container invitation-container">
       <AnimatedBackground theme="royal" />
-      <Header theme="royal" />
+      <Header theme="royal" eventDetails={eventDetails} />
       
       <main className="flex-1 w-full max-w-7xl mx-auto px-4 pt-32 pb-16">
         {/* Royal Curtain Effect */}
@@ -97,7 +125,7 @@ const RoyalHeritageHomecoming = () => {
         
         {/* Blessing Animation */}
         <div className="w-full max-w-3xl mx-auto mb-12">
-          <BlessingAnimation theme="royal" />
+          <BlessingAnimation theme="royal" onBlessingComplete={handleBlessingComplete} />
         </div>
         
         {/* RSVP Form */}

@@ -9,11 +9,13 @@ import RsvpForm from '../components/RsvpForm';
 import AnimatedBackground from '../components/AnimatedBackground';
 import AvenueMap from '../components/AvenueMap';
 import BlessingAnimation from '../components/BlessingAnimation';
+import LoadingScreen from '../components/LoadingScreen';
 import { Video } from 'lucide-react';
 
 // Define customizable props - these would be set by the user
 const defaultProps = {
   hostName: "Olivia & Noah",
+  title: "Housewarming Party",
   date: "Saturday, September 16, 2023",
   time: "4:00 PM - 9:00 PM",
   address: "78 Sunflower Street, Miami, FL 33101",
@@ -26,7 +28,17 @@ const TropicalBohoEscape = () => {
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [showVideoButton, setShowVideoButton] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const footerRef = useRef<HTMLDivElement>(null);
+  
+  // Simulate loading time
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+    
+    return () => clearTimeout(timer);
+  }, []);
   
   // Check scroll position to determine when to show video button
   useEffect(() => {
@@ -47,11 +59,27 @@ const TropicalBohoEscape = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+  
+  const handleBlessingComplete = () => {
+    // Open video message when blessing animation completes
+    setIsVideoModalOpen(true);
+  };
+
+  const eventDetails = {
+    title: defaultProps.title,
+    date: defaultProps.date,
+    time: defaultProps.time,
+    address: defaultProps.address
+  };
+
+  if (isLoading) {
+    return <LoadingScreen theme="tropical" onComplete={() => setIsLoading(false)} />;
+  }
 
   return (
     <div className="tropical-container invitation-container">
       <AnimatedBackground theme="tropical" />
-      <Header theme="tropical" />
+      <Header theme="tropical" eventDetails={eventDetails} />
       
       <main className="flex-1 w-full max-w-7xl mx-auto px-4 pt-32 pb-16">
         <div className="relative w-full max-w-3xl mx-auto mb-20 animate-fade-in">
@@ -72,7 +100,7 @@ const TropicalBohoEscape = () => {
         
         {/* Blessing Animation */}
         <div className="w-full max-w-3xl mx-auto mb-12">
-          <BlessingAnimation theme="tropical" />
+          <BlessingAnimation theme="tropical" onBlessingComplete={handleBlessingComplete} />
         </div>
         
         {/* RSVP Form */}
