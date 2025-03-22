@@ -7,6 +7,8 @@ import VideoMessage from '../components/VideoMessage';
 import InvitationDetails from '../components/InvitationDetails';
 import RsvpForm from '../components/RsvpForm';
 import AnimatedBackground from '../components/AnimatedBackground';
+import AvenueMap from '../components/AvenueMap';
+import BlessingAnimation from '../components/BlessingAnimation';
 import { Video, Crown } from 'lucide-react';
 
 // Define customizable props - these would be set by the user
@@ -88,23 +90,18 @@ const RoyalHeritageHomecoming = () => {
           />
         </div>
         
+        {/* Avenue Map Section */}
+        <div className="w-full max-w-3xl mx-auto mb-12">
+          <AvenueMap address={defaultProps.address} theme="royal" />
+        </div>
+        
+        {/* Blessing Animation */}
+        <div className="w-full max-w-3xl mx-auto mb-12">
+          <BlessingAnimation theme="royal" />
+        </div>
+        
         {/* RSVP Form */}
         <RsvpForm theme="royal" />
-        
-        {/* Interactive Blessing Section */}
-        <div className="mt-16 text-center">
-          <h3 className="text-2xl font-medium text-royal-gold mb-4">Send Your Blessings</h3>
-          <p className="text-white/80 mb-6 max-w-md mx-auto">
-            Your blessings will illuminate our new home with joy and happiness.
-          </p>
-          
-          <button 
-            className="royal-button flex items-center mx-auto"
-          >
-            <span className="mr-2">✨</span>
-            Light a Blessing Lantern
-          </button>
-        </div>
         
         {/* Video button that appears when scrolled to bottom */}
         {showVideoButton && (

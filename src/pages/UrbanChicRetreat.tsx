@@ -7,7 +7,9 @@ import VideoMessage from '../components/VideoMessage';
 import InvitationDetails from '../components/InvitationDetails';
 import RsvpForm from '../components/RsvpForm';
 import AnimatedBackground from '../components/AnimatedBackground';
-import { Video, Clock, Calendar, Music } from 'lucide-react';
+import AvenueMap from '../components/AvenueMap';
+import BlessingAnimation from '../components/BlessingAnimation';
+import { Video, Clock, Calendar } from 'lucide-react';
 
 // Define customizable props - these would be set by the user
 const defaultProps = {
@@ -117,18 +119,18 @@ const UrbanChicRetreat = () => {
           />
         </div>
         
+        {/* Avenue Map Section */}
+        <div className="w-full max-w-3xl mx-auto mb-12">
+          <AvenueMap address={defaultProps.address} theme="urban" />
+        </div>
+        
+        {/* Blessing Animation */}
+        <div className="w-full max-w-3xl mx-auto mb-12">
+          <BlessingAnimation theme="urban" />
+        </div>
+        
         {/* RSVP Form */}
         <RsvpForm theme="urban" />
-        
-        {/* Spotify Playlist */}
-        <div className="mt-12 text-center">
-          <button 
-            className="urban-button flex items-center mx-auto"
-          >
-            <Music size={20} className="mr-2" />
-            Listen to Our Housewarming Playlist
-          </button>
-        </div>
         
         {/* Add to Calendar */}
         <div className="mt-6 text-center">

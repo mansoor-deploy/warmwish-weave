@@ -7,7 +7,9 @@ import VideoMessage from '../components/VideoMessage';
 import InvitationDetails from '../components/InvitationDetails';
 import RsvpForm from '../components/RsvpForm';
 import AnimatedBackground from '../components/AnimatedBackground';
-import { Video, BookOpen } from 'lucide-react';
+import AvenueMap from '../components/AvenueMap';
+import BlessingAnimation from '../components/BlessingAnimation';
+import { Video } from 'lucide-react';
 
 // Define customizable props - these would be set by the user
 const defaultProps = {
@@ -80,18 +82,18 @@ const VintageCharmManor = () => {
           </div>
         </div>
         
+        {/* Avenue Map Section */}
+        <div className="w-full max-w-3xl mx-auto mb-12">
+          <AvenueMap address={defaultProps.address} theme="vintage" />
+        </div>
+        
+        {/* Blessing Animation */}
+        <div className="w-full max-w-3xl mx-auto mb-12">
+          <BlessingAnimation theme="vintage" />
+        </div>
+        
         {/* RSVP Form */}
         <RsvpForm theme="vintage" />
-        
-        {/* Guest Book Button (could be expanded into a full feature) */}
-        <div className="mt-12 text-center">
-          <button 
-            className="vintage-button flex items-center mx-auto"
-          >
-            <BookOpen size={20} className="mr-2" />
-            Sign Our Guest Book
-          </button>
-        </div>
         
         {/* Video button that appears when scrolled to bottom */}
         {showVideoButton && (

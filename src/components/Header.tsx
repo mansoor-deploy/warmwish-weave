@@ -41,24 +41,6 @@ const Header: React.FC<HeaderProps> = ({ theme }) => {
         >
           <Home size={24} />
         </Link>
-        
-        <nav className="flex space-x-6">
-          <Link to="/cozy-luxe-haven" className="hover:opacity-80 transition-opacity">
-            Cozy Luxe
-          </Link>
-          <Link to="/vintage-charm-manor" className="hover:opacity-80 transition-opacity">
-            Vintage Charm
-          </Link>
-          <Link to="/urban-chic-retreat" className="hover:opacity-80 transition-opacity">
-            Urban Chic
-          </Link>
-          <Link to="/tropical-boho-escape" className="hover:opacity-80 transition-opacity">
-            Tropical Boho
-          </Link>
-          <Link to="/royal-heritage-homecoming" className="hover:opacity-80 transition-opacity">
-            Royal Heritage
-          </Link>
-        </nav>
       </div>
     </header>
   );

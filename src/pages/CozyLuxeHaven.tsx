@@ -7,6 +7,8 @@ import VideoMessage from '../components/VideoMessage';
 import InvitationDetails from '../components/InvitationDetails';
 import RsvpForm from '../components/RsvpForm';
 import AnimatedBackground from '../components/AnimatedBackground';
+import AvenueMap from '../components/AvenueMap';
+import BlessingAnimation from '../components/BlessingAnimation';
 import { Video } from 'lucide-react';
 
 // Define customizable props - these would be set by the user
@@ -68,6 +70,16 @@ const CozyLuxeHaven = () => {
               theme="cozy"
             />
           </div>
+        </div>
+        
+        {/* Avenue Map Section */}
+        <div className="w-full max-w-3xl mx-auto mb-12">
+          <AvenueMap address={defaultProps.address} theme="cozy" />
+        </div>
+        
+        {/* Blessing Animation */}
+        <div className="w-full max-w-3xl mx-auto mb-12">
+          <BlessingAnimation theme="cozy" />
         </div>
         
         {/* RSVP Form */}

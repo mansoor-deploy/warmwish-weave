@@ -7,7 +7,9 @@ import VideoMessage from '../components/VideoMessage';
 import InvitationDetails from '../components/InvitationDetails';
 import RsvpForm from '../components/RsvpForm';
 import AnimatedBackground from '../components/AnimatedBackground';
-import { Video, Flower, GlassWater } from 'lucide-react';
+import AvenueMap from '../components/AvenueMap';
+import BlessingAnimation from '../components/BlessingAnimation';
+import { Video } from 'lucide-react';
 
 // Define customizable props - these would be set by the user
 const defaultProps = {
@@ -24,9 +26,7 @@ const TropicalBohoEscape = () => {
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [showVideoButton, setShowVideoButton] = useState(false);
-  const [blessingSent, setBlessingSent] = useState(false);
   const footerRef = useRef<HTMLDivElement>(null);
-  const blessingsRef = useRef<HTMLDivElement>(null);
   
   // Check scroll position to determine when to show video button
   useEffect(() => {
@@ -48,56 +48,6 @@ const TropicalBohoEscape = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Floating leaf animation
-  const createFloatingLeaf = () => {
-    if (!blessingsRef.current) return;
-    
-    const leaf = document.createElement('div');
-    leaf.className = 'absolute w-8 h-8 bg-contain bg-no-repeat bg-center animate-float opacity-0';
-    
-    // Randomly choose one of three leaf images
-    const leafIndex = Math.floor(Math.random() * 3) + 1;
-    leaf.style.backgroundImage = `url('/backgrounds/leaf-${leafIndex}.svg')`;
-    
-    // Random position
-    leaf.style.left = `${Math.random() * 100}%`;
-    leaf.style.bottom = '0';
-    
-    // Random animation duration
-    const duration = 3 + Math.random() * 4;
-    leaf.style.animation = `float ${duration}s ease-in-out`;
-    
-    blessingsRef.current.appendChild(leaf);
-    
-    // Fade in
-    setTimeout(() => {
-      leaf.style.opacity = '0.8';
-    }, 100);
-    
-    // Remove after animation completes
-    setTimeout(() => {
-      if (blessingsRef.current && blessingsRef.current.contains(leaf)) {
-        blessingsRef.current.removeChild(leaf);
-      }
-    }, duration * 1000);
-  };
-
-  const sendBlessing = () => {
-    setBlessingSent(true);
-    
-    // Create multiple floating leaves
-    for (let i = 0; i < 12; i++) {
-      setTimeout(() => {
-        createFloatingLeaf();
-      }, i * 300);
-    }
-    
-    // Reset blessing state after animation
-    setTimeout(() => {
-      setBlessingSent(false);
-    }, 5000);
-  };
-
   return (
     <div className="tropical-container invitation-container">
       <AnimatedBackground theme="tropical" />
@@ -115,39 +65,18 @@ const TropicalBohoEscape = () => {
           />
         </div>
         
-        {/* RSVP Form */}
-        <RsvpForm theme="tropical" />
+        {/* Avenue Map Section */}
+        <div className="w-full max-w-3xl mx-auto mb-12">
+          <AvenueMap address={defaultProps.address} theme="tropical" />
+        </div>
         
         {/* Blessing Animation */}
-        <div className="mt-16 text-center relative">
-          <div ref={blessingsRef} className="absolute inset-0 overflow-hidden">
-            {/* Leaves will be dynamically added here */}
-          </div>
-          
-          <h3 className="text-2xl font-medium text-tropical-wood mb-4">Send a Blessing</h3>
-          <p className="text-tropical-wood/80 mb-6 max-w-md mx-auto">
-            Click below to send positive energy and good wishes to our new home.
-          </p>
-          
-          <button 
-            onClick={sendBlessing}
-            disabled={blessingSent}
-            className={`tropical-button flex items-center mx-auto ${blessingSent ? 'opacity-50 cursor-not-allowed' : ''}`}
-          >
-            <Flower size={20} className="mr-2" />
-            {blessingSent ? 'Blessing Sent!' : 'Send a Blessing'}
-          </button>
+        <div className="w-full max-w-3xl mx-auto mb-12">
+          <BlessingAnimation theme="tropical" />
         </div>
         
-        {/* Drinks Preference */}
-        <div className="mt-12 text-center">
-          <button 
-            className="button-secondary border border-tropical-green/50 text-tropical-green flex items-center mx-auto"
-          >
-            <GlassWater size={20} className="mr-2" />
-            Let Us Know Your Drink Preferences
-          </button>
-        </div>
+        {/* RSVP Form */}
+        <RsvpForm theme="tropical" />
         
         {/* Video button that appears when scrolled to bottom */}
         {showVideoButton && (
