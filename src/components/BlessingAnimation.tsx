@@ -1,6 +1,6 @@
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Heart, Sparkles } from 'lucide-react';
+import { Heart, Sparkles, Film } from 'lucide-react';
 
 interface BlessingAnimationProps {
   theme: 'cozy' | 'vintage' | 'urban' | 'tropical' | 'royal';
@@ -9,6 +9,7 @@ interface BlessingAnimationProps {
 
 const BlessingAnimation: React.FC<BlessingAnimationProps> = ({ theme, onBlessingComplete }) => {
   const [blessingSent, setBlessingSent] = useState(false);
+  const [showVideoHint, setShowVideoHint] = useState(false);
   const blessingsRef = useRef<HTMLDivElement>(null);
   
   const themeClasses = {
@@ -143,15 +144,21 @@ const BlessingAnimation: React.FC<BlessingAnimationProps> = ({ theme, onBlessing
       }, i * 120);
     }
     
+    // Show video hint after 1 second
+    setTimeout(() => {
+      setShowVideoHint(true);
+    }, 1000);
+    
     // Call onBlessingComplete after animation finishes
     setTimeout(() => {
       if (onBlessingComplete) {
         onBlessingComplete();
       }
       
-      // Reset blessing state after animation completes
+      // Reset states after animation completes
       setTimeout(() => {
         setBlessingSent(false);
+        setShowVideoHint(false);
       }, 1000);
     }, 4000);
   };
@@ -182,6 +189,16 @@ const BlessingAnimation: React.FC<BlessingAnimationProps> = ({ theme, onBlessing
         )}
         {blessingSent ? 'Blessing Sent!' : 'Send a Blessing'}
       </button>
+      
+      {/* Video hint message that appears during animation */}
+      {showVideoHint && (
+        <div className="mt-4 text-center animate-fade-in">
+          <p className={`flex items-center justify-center gap-2 ${themeClasses[theme].text} font-medium`}>
+            <Film size={18} className="animate-pulse" />
+            <span>Preparing a special message for you...</span>
+          </p>
+        </div>
+      )}
     </div>
   );
 };

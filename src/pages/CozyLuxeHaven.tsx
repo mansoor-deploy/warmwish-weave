@@ -10,6 +10,7 @@ import AnimatedBackground from '../components/AnimatedBackground';
 import AvenueMap from '../components/AvenueMap';
 import BlessingAnimation from '../components/BlessingAnimation';
 import LoadingScreen from '../components/LoadingScreen';
+import PhotoGallery from '../components/PhotoGallery';
 
 // Define customizable props - these would be set by the user
 const defaultProps = {
@@ -76,6 +77,11 @@ const CozyLuxeHaven = () => {
               theme="cozy"
             />
           </div>
+        </div>
+        
+        {/* Photo Gallery Section */}
+        <div className="w-full max-w-3xl mx-auto mb-12">
+          <PhotoGallery theme="cozy" />
         </div>
         
         {/* Avenue Map Section */}

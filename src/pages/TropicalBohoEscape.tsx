@@ -10,6 +10,7 @@ import AnimatedBackground from '../components/AnimatedBackground';
 import AvenueMap from '../components/AvenueMap';
 import BlessingAnimation from '../components/BlessingAnimation';
 import LoadingScreen from '../components/LoadingScreen';
+import PhotoGallery from '../components/PhotoGallery';
 import { Video } from 'lucide-react';
 
 // Define customizable props - these would be set by the user
@@ -91,6 +92,11 @@ const TropicalBohoEscape = () => {
             message={defaultProps.message}
             theme="tropical"
           />
+        </div>
+        
+        {/* Photo Gallery Section */}
+        <div className="w-full max-w-3xl mx-auto mb-12">
+          <PhotoGallery theme="tropical" />
         </div>
         
         {/* Avenue Map Section */}
