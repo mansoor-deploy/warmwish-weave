@@ -4,9 +4,10 @@ import { Heart, Sparkles } from 'lucide-react';
 
 interface BlessingAnimationProps {
   theme: 'cozy' | 'vintage' | 'urban' | 'tropical' | 'royal';
+  onBlessingComplete?: () => void;
 }
 
-const BlessingAnimation: React.FC<BlessingAnimationProps> = ({ theme }) => {
+const BlessingAnimation: React.FC<BlessingAnimationProps> = ({ theme, onBlessingComplete }) => {
   const [blessingSent, setBlessingSent] = useState(false);
   const blessingsRef = useRef<HTMLDivElement>(null);
   
@@ -142,10 +143,17 @@ const BlessingAnimation: React.FC<BlessingAnimationProps> = ({ theme }) => {
       }, i * 120);
     }
     
-    // Reset blessing state after animation completes
+    // Call onBlessingComplete after animation finishes
     setTimeout(() => {
-      setBlessingSent(false);
-    }, 6000);
+      if (onBlessingComplete) {
+        onBlessingComplete();
+      }
+      
+      // Reset blessing state after animation completes
+      setTimeout(() => {
+        setBlessingSent(false);
+      }, 1000);
+    }, 4000);
   };
 
   return (
