@@ -99,13 +99,7 @@ const AnimatedBackground: React.FC<AnimatedBackgroundProps> = ({ theme }) => {
             <div className="absolute inset-0 bg-gradient-to-b from-royal-blue/90 to-black"></div>
             <div className="absolute inset-0 bg-[url('/backgrounds/royal-pattern.svg')] bg-repeat opacity-10"></div>
             
-            {/* Sparkle animation is added dynamically */}
-            <style jsx>{`
-              @keyframes sparkle-fade {
-                0%, 100% { opacity: 0; transform: translateY(0); }
-                50% { opacity: 0.8; transform: translateY(-20px); }
-              }
-            `}</style>
+            {/* Add animation styles to head instead of using jsx prop */}
           </div>
         );
         
@@ -113,6 +107,28 @@ const AnimatedBackground: React.FC<AnimatedBackgroundProps> = ({ theme }) => {
         return <div className="absolute inset-0 bg-gradient-to-b from-gray-100 to-gray-200"></div>;
     }
   };
+
+  // Add sparkle animation keyframes to document head when component mounts
+  useEffect(() => {
+    if (theme !== 'royal') return;
+    
+    // Create a style element
+    const styleElement = document.createElement('style');
+    styleElement.textContent = `
+      @keyframes sparkle-fade {
+        0%, 100% { opacity: 0; transform: translateY(0); }
+        50% { opacity: 0.8; transform: translateY(-20px); }
+      }
+    `;
+    
+    // Append to document head
+    document.head.appendChild(styleElement);
+    
+    // Clean up on unmount
+    return () => {
+      document.head.removeChild(styleElement);
+    };
+  }, [theme]);
 
   return (
     <div className="fixed inset-0 -z-10">
